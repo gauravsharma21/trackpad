@@ -24,8 +24,11 @@ io.on("connection", (socket) => {
     })
 
     socket.on("mouse_toggle", (val) => {
-        console.log(val);
         events.toggle_mouse(val);
+    })
+
+    socket.on("scroll", (pos) => {
+        events.scroll_mouse(pos);
     })
 
     socket.on("disconnect", () => {

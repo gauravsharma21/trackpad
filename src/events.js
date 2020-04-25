@@ -15,8 +15,13 @@ function toggle_mouse(val) {
         robot.mouseToggle("up");
 }
 
+function scroll_mouse({ dx, dy, wheight, wwidth }) {
+    robot.scrollMouse(dx, dy);
+}
+
 module.exports = {
     move_mouse,
     click_mouse,
-    toggle_mouse
+    toggle_mouse,
+    scroll_mouse,
 }

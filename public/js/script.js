@@ -11,8 +11,10 @@ var x = 0,
 
 var tapedTwice = false;
 var touch_start = new Date().getTime();
+var moved = false;
 
 function doubleTap(event) {
+    if (event.touches.length == 2) return;
     if (!tapedTwice) {
         tapedTwice = true;
         setTimeout(function() { tapedTwice = false; }, 300);
@@ -26,10 +28,11 @@ function onStart(e) {
     touch_start = new Date().getTime();
     sx = e.touches[0].clientX;
     sy = e.touches[0].clientY;
+    moved = false;
     doubleTap(e);
 }
 
-function coordinate(e) {
+function singleFinger(e) {
     x = e.touches[0].clientX;
     y = e.touches[0].clientY;
     var dx = 4 * (x - sx),
@@ -41,10 +44,22 @@ function coordinate(e) {
     socket.emit("position", { ax, ay, wheight, wwidth });
 }
 
+function doubleFinger(e) {
+    socket.emit("scroll", { dx, dy, wheight, wwidth });
+}
+
+function onMove(e) {
+    moved = true;
+    if (e.touches.length == 1)
+        singleFinger(e);
+    if (e.touches.length == 2)
+        doubleFinger(e);
+}
+
 function onStop(e) {
     tx = ax;
     ty = ay;
     var touch_end = new Date().getTime();
-    if (touch_end - touch_start < 300) socket.emit("click");
+    if (touch_end - touch_start < 300 && moved == false) socket.emit("click");
     socket.emit("mouse_toggle", "up");
 }
