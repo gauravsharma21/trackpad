@@ -1,6 +1,6 @@
 const robot = require('robotjs');
 
-function move_mouse({ ax, ay, wheight, wwidth }) {
+function move_mouse({ ax, ay }) {
     robot.moveMouse(ax, ay);
 }
 
@@ -15,7 +15,7 @@ function toggle_mouse(val) {
         robot.mouseToggle("up");
 }
 
-function scroll_mouse({ dx, dy, wheight, wwidth }) {
+function scroll_mouse({ dx, dy }) {
     robot.scrollMouse(dx, dy);
 }
 

@@ -12,6 +12,7 @@ var x = 0,
 var tapedTwice = false;
 var touch_start = new Date().getTime();
 var moved = false;
+twofingers = false;
 
 function doubleTap(event) {
     if (event.touches.length == 2) return;
@@ -33,25 +34,37 @@ function onStart(e) {
 }
 
 function singleFinger(e) {
-    x = e.touches[0].clientX;
-    y = e.touches[0].clientY;
+    var x = e.touches[0].clientX,
+        y = e.touches[0].clientY;
     var dx = 4 * (x - sx),
         dy = 4 * (y - sy);
-    var wheight = screen.height;
-    var wwidth = screen.width;
     ax = (tx + dx);
     ay = (ty + dy);
-    socket.emit("position", { ax, ay, wheight, wwidth });
+    socket.emit("position", { ax, ay });
+}
+
+function onCancel(e) {
+    alert("cancelled")
 }
 
 function doubleFinger(e) {
-    socket.emit("scroll", { dx, dy, wheight, wwidth });
+    twofingers = true;
+    var x = e.touches[1].clientX,
+        y = e.touches[1].clientY;
+    var dx = (x - sx) / 10,
+        dy = (y - sy) / 10;
+    socket.emit("scroll", { dx, dy });
+
 }
 
 function onMove(e) {
     moved = true;
-    if (e.touches.length == 1)
+    if (e.touches.length == 1) {
+        if (twofingers) {
+            twofingers = false;
+        }
         singleFinger(e);
+    }
     if (e.touches.length == 2)
         doubleFinger(e);
 }
