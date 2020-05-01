@@ -29,7 +29,7 @@ function doubleTap(event) {
 function onStart(e) {
     touch_start = new Date().getTime();
     for (var i = 0; i < e.touches.length; i++) {
-        touches.push(e.touches[i]);
+        touches.push({ x: e.touches[i].clientX, y: e.touches[i].clientY });
     }
     moved = false;
     distance_x = 0;
@@ -40,8 +40,8 @@ function onStart(e) {
 function singleFinger(e) {
     var x = e.touches[0].clientX,
         y = e.touches[0].clientY;
-    var dx = 4 * (x - touches[0].clientX),
-        dy = 4 * (y - touches[0].clientY);
+    var dx = 4 * (x - touches[0].x),
+        dy = 4 * (y - touches[0].y);
     ax = (tx + dx);
     ay = (ty + dy);
     socket.emit("position", { ax, ay });
@@ -51,33 +51,34 @@ function onCancel(e) {
     alert("cancelled")
 }
 
+function scroll(idx) {
+    var id = changedTouches[idx].identifier;
+    var x = e.touches[id].clientX,
+        y = e.touches[id].clientY;
+    if (distance(touches[id].x, x) > distance_x) {
+        distance_x = distance(touches[id].x, x);
+    } else {
+        touches[id].x = x;
+        distance_x = 0;
+    }
+    if (distance(touches[id].y, y) > distance_y) {
+        distance_y = distance(touches[id].y, y);
+    } else {
+        touches[id].y = y;
+        distance_y = 0;
+    }
+    var dx = (x - touches[id].x) / 40,
+        dy = (y - touches[id].y) / 40;
+    socket.emit("scroll", { dx, dy });
+}
+
 function doubleFinger(e) {
-    twofingers = true;
     var changedTouches = e.changedTouches;
-    for (var i = 0; i < changedTouches.length; i++) {
-        var x = e.touches[i].clientX,
-            y = e.touches[i].clientY;
-        var init;
-        for (var i = 0; i < touches.length; i++) {
-            if (touches[i].identifier == i)
-                init = touches[i];
-        }
-        if (init == undefined) return;
-        if (distance(init.clientX, x) > distance_x) {
-            distance_x = distance(init.clientX, x);
-        } else {
-            init.clientX = x;
-            distance_x = 0;
-        }
-        if (distance(init.clientY, y) > distance_y) {
-            distance_y = distance(init.clientY, y);
-        } else {
-            init.clientY = y;
-            distance_y = 0;
-        }
-        var dx = (x - init.clientX) / 10,
-            dy = (y - init.clientY) / 10;
-        socket.emit("scroll", JSON.stringify(changedTouches));
+    if (changedTouches[0]) {
+        scroll(0);
+    }
+    if (changedTouches[1]) {
+        scroll(1);
     }
 }
 
@@ -85,9 +86,6 @@ function onMove(e) {
     e.preventDefault();
     moved = true;
     if (e.touches.length == 1) {
-        if (twofingers) {
-            twofingers = false;
-        }
         singleFinger(e);
     }
     if (e.touches.length == 2) {
