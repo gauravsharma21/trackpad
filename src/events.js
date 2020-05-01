@@ -17,6 +17,8 @@ function toggle_mouse(val) {
 
 function scroll_mouse({ dx, dy }) {
     robot.scrollMouse(dx, dy);
+    // console.log(dx, dy);
+    // console.log(x);
 }
 
 module.exports = {
