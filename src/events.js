@@ -4,8 +4,8 @@ function move_mouse({ ax, ay }) {
     robot.moveMouse(ax, ay);
 }
 
-function click_mouse() {
-    robot.mouseClick();
+function click_mouse(val) {
+    robot.mouseClick(val);
 }
 
 function toggle_mouse(val) {
@@ -17,8 +17,6 @@ function toggle_mouse(val) {
 
 function scroll_mouse({ dx, dy }) {
     robot.scrollMouse(dx, dy);
-    // console.log(dx, dy);
-    // console.log(x);
 }
 
 module.exports = {

@@ -31,6 +31,8 @@ function onStart(e) {
     for (var i = 0; i < e.touches.length; i++) {
         touches.push({ x: e.touches[i].clientX, y: e.touches[i].clientY });
     }
+    if (e.touches.length == 2) twofingers = true;
+    else twofingers = false;
     moved = false;
     distance_x = 0;
     distance_y = 0;
@@ -51,7 +53,7 @@ function onCancel(e) {
     alert("cancelled")
 }
 
-function scroll(idx) {
+function scroll(idx, e, changedTouches) {
     var id = changedTouches[idx].identifier;
     var x = e.touches[id].clientX,
         y = e.touches[id].clientY;
@@ -67,18 +69,18 @@ function scroll(idx) {
         touches[id].y = y;
         distance_y = 0;
     }
-    var dx = (x - touches[id].x) / 40,
-        dy = (y - touches[id].y) / 40;
+    var dx = (x - touches[id].x) / 20,
+        dy = (y - touches[id].y) / 20;
     socket.emit("scroll", { dx, dy });
 }
 
 function doubleFinger(e) {
     var changedTouches = e.changedTouches;
     if (changedTouches[0]) {
-        scroll(0);
+        scroll(0, e, changedTouches);
     }
     if (changedTouches[1]) {
-        scroll(1);
+        scroll(1, e, changedTouches);
     }
 }
 
@@ -97,7 +99,9 @@ function onStop(e) {
     tx = ax;
     ty = ay;
     var touch_end = new Date().getTime();
-    if (touch_end - touch_start < 300 && moved == false) socket.emit("click");
+    if (touch_end - touch_start < 300 && moved == false) {
+        socket.emit("click", "left");
+    }
     socket.emit("mouse_toggle", "up");
     touches = [];
 }
