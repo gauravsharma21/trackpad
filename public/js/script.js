@@ -16,6 +16,13 @@ function distance(source, destination) {
     return Math.abs(source - destination);
 }
 
+function findTouchById(touches, id) {
+    for (var i = 0; i < touches.length; i++) {
+        if (touches[i].id == id) return i;
+    }
+    return undefined;
+}
+
 function doubleTap(event) {
     if (event.touches.length == 2) return;
     if (!tapedTwice) {
@@ -27,9 +34,10 @@ function doubleTap(event) {
 }
 
 function onStart(e) {
+    // for (var i = 0; i < touches.length; i++) console.log(touches[i]);
     touch_start = new Date().getTime();
     for (var i = 0; i < e.touches.length; i++) {
-        touches.push({ x: e.touches[i].clientX, y: e.touches[i].clientY });
+        touches.push({ id: e.touches[i].identifier, x: e.touches[i].clientX, y: e.touches[i].clientY });
     }
     if (e.touches.length == 2) twofingers = true;
     else twofingers = false;
@@ -42,8 +50,9 @@ function onStart(e) {
 function singleFinger(e) {
     var x = e.touches[0].clientX,
         y = e.touches[0].clientY;
-    var dx = 4 * (x - touches[0].x),
-        dy = 4 * (y - touches[0].y);
+    var id = findTouchById(touches, e.touches[0].identifier);
+    var dx = 4 * (x - touches[id].x),
+        dy = 4 * (y - touches[id].y);
     ax = (tx + dx);
     ay = (ty + dy);
     socket.emit("position", { ax, ay });
@@ -55,8 +64,9 @@ function onCancel(e) {
 
 function scroll(idx, e, changedTouches) {
     var id = changedTouches[idx].identifier;
-    var x = e.touches[id].clientX,
-        y = e.touches[id].clientY;
+    id = findTouchById(touches, id);
+    var x = changedTouches[idx].clientX,
+        y = changedTouches[idx].clientY;
     if (distance(touches[id].x, x) > distance_x) {
         distance_x = distance(touches[id].x, x);
     } else {
@@ -103,5 +113,6 @@ function onStop(e) {
         socket.emit("click", "left");
     }
     socket.emit("mouse_toggle", "up");
-    touches = [];
+    var id = e.changedTouches[0].identifier;
+    touches = touches.filter((el) => el.id != id);
 }
