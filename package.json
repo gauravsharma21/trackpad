@@ -1,5 +1,5 @@
 {
-    "name": "playground",
+    "name": "trackpad",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -9,7 +9,7 @@
         "dev": "nodemon src/index.js"
     },
     "keywords": [],
-    "author": "",
+    "author": "gaurav sharma",
     "license": "ISC",
     "dependencies": {
         "express": "^4.17.1",
