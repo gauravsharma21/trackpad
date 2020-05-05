@@ -19,8 +19,8 @@ io.on("connection", (socket) => {
         events.move_mouse(pos)
     })
 
-    socket.on("click", () => {
-        events.click_mouse();
+    socket.on("click", (val) => {
+        events.click_mouse(val);
     })
 
     socket.on("mouse_toggle", (val) => {
@@ -34,6 +34,7 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("disconnected")
     })
+
 })
 
 http.listen(PORT, () => {
