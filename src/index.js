@@ -15,7 +15,7 @@ app.use(express.static(publicpath))
 io.on("connection", (socket) => {
     console.log("a user connected");
 
-    socket.on("position", (pos) => {
+    socket.on("move", (pos) => {
         events.move_mouse(pos)
     })
 
