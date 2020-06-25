@@ -1,11 +1,11 @@
 const robot = require('robotjs');
 
-function move_mouse({ ax, ay }) {
-    robot.moveMouse(ax, ay);
+function move_mouse({ final_x, final_y }) {
+    robot.moveMouse(final_x, final_y);
 }
 
-function click_mouse() {
-    robot.mouseClick();
+function click_mouse(val) {
+    robot.mouseClick(val);
 }
 
 function toggle_mouse(val) {
@@ -16,7 +16,11 @@ function toggle_mouse(val) {
 }
 
 function scroll_mouse({ dx, dy }) {
-    robot.scrollMouse(dx, dy);
+    robot.scrollMouse(0, 1);
+}
+
+function mouse_position() {
+    return robot.getMousePos();
 }
 
 module.exports = {
@@ -24,4 +28,5 @@ module.exports = {
     click_mouse,
     toggle_mouse,
     scroll_mouse,
+    mouse_position
 }
