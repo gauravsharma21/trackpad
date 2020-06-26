@@ -21,8 +21,6 @@
     },
     "engines": {
         "node": "11.0.0",
-        "npm": "6.4.1",
-        "libxtst-dev": "",
-        "libpng++-dev": ""
+        "npm": "6.4.1"
     }
 }
