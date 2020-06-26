@@ -21,7 +21,7 @@ function onMove(e) {
 
     final_x = init_x + distance_x;
     final_y = init_y + distance_y;
-    socket.emit("move", { final_x, final_y });
+    // socket.emit("move", { final_x, final_y });
 }
 
 function onStop(e) {
