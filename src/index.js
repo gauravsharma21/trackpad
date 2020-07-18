@@ -20,11 +20,13 @@ io.on("connection", (socket) => {
     })
 
     socket.on("click", (val) => {
+        // console.log(val);
         events.click_mouse(val);
     })
 
     socket.on("mouse_toggle", (val) => {
         events.toggle_mouse(val);
+        // console.log(val);
     })
 
     socket.on("scroll", (pos) => {

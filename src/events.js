@@ -9,10 +9,7 @@ function click_mouse(val) {
 }
 
 function toggle_mouse(val) {
-    if (val === "down")
-        robot.mouseToggle("down");
-    else
-        robot.mouseToggle("up");
+    robot.mouseToggle(val);
 }
 
 function scroll_mouse({ dx, dy }) {
