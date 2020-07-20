@@ -6,14 +6,19 @@
     <title>Document</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
 
 </head>
 
-<body style="height: 100vh;
-         height: 100wh; 
-         margin: 0; 
-         padding: 0; 
-         overflow: hidden;">
+<body style="display: flex; flex-direction: column;">
+    <div style="flex: 1;">
+        <button id="lock_button" style="border: none; padding: 10px;">Lock mouse</button>
+        <!-- <textarea id="text" style="display: none;"> </textarea>
+        <button id="key_button" style="border: none; padding: 10px;">Keyboard</button> -->
+    </div>
+    <div style="flex: 10;">
+        <div id="screen" style="border: 5px solid #a8a8a8; border-radius: 10px; height: 90%; width: 90%; margin: auto; background-color: #dbdbdb;"></div>
+    </div>
     <script src="./js/script.js"></script>
 </body>
 

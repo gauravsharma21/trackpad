@@ -1,5 +1,7 @@
 const socket = io();
-var body = document.querySelector("body");
+var body = document.getElementById("screen");
+var lock = true;
+
 var mc = new Hammer.Manager(body);
 
 var move = new Hammer.Pan({
@@ -20,6 +22,23 @@ var tap2 = new Hammer.Tap({
     event: "right_click",
     pointers: 2
 });
+
+document.getElementById("lock_button").addEventListener("click", () => {
+    if(!lock){
+        mc.add(move);
+        mc.add(tap1);
+        mc.add(tap2);
+    }else{
+        mc.remove(move);
+        mc.remove(tap1);
+        mc.remove(tap2);
+    }
+    lock = !lock;
+});
+
+// document.getElementById("key_button").addEventListener("click", () => {
+//     document.getElementById("text").focus();
+// });
 
 mc.add(move);
 mc.add(tap1);

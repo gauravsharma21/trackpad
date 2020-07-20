@@ -1,0 +1,10 @@
+html,
+body {
+    margin: 0;
+    height: 100%;
+    overscroll-behavior-y: contain;
+}
+
+button:active {
+    background-color: aqua;
+}
