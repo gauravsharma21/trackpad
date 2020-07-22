@@ -9,10 +9,7 @@ function click_mouse(val) {
 }
 
 function toggle_mouse(val) {
-    if (val === "down")
-        robot.mouseToggle("down");
-    else
-        robot.mouseToggle("up");
+    robot.mouseToggle(val);
 }
 
 function scroll_mouse({ dx, dy }) {
@@ -23,10 +20,15 @@ function mouse_position() {
     return robot.getMousePos();
 }
 
+function getScreenSize(){
+    return {height, width} = robot.getScreenSize();
+}
+
 module.exports = {
     move_mouse,
     click_mouse,
     toggle_mouse,
     scroll_mouse,
-    mouse_position
+    mouse_position,
+    getScreenSize
 }
