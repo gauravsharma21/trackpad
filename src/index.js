@@ -17,26 +17,27 @@ app.get('/size', (req, res) => {
     res.send(events.getScreenSize());
 })
 
+var x,y;
+
 io.on("connection", (socket) => {
     console.log("a user connected");
 
+    socket.on("init", () => {
+        var obj = events.mouse_position();
+        x = obj.x;
+        y = obj.y;
+    })
+
     socket.on("move", (pos) => {
-        events.move_mouse(pos);
-        
+        events.move_mouse({...pos, x, y});
     })
 
     socket.on("click", (val) => {
-        // console.log(val);
         events.click_mouse(val);
     })
 
     socket.on("mouse_toggle", (val) => {
         events.toggle_mouse(val);
-        // console.log(val);
-    })
-
-    socket.on("scroll", (pos) => {
-        events.scroll_mouse(pos);
     })
 
     socket.on("disconnect", () => {

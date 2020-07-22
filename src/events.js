@@ -1,7 +1,7 @@
 const robot = require('robotjs');
 
-function move_mouse({ final_x, final_y }) {
-    robot.moveMouse(final_x, final_y);
+function move_mouse({ dx, dy, x, y }) {
+    robot.moveMouse(x + dx, y + dy);
 }
 
 function click_mouse(val) {
@@ -10,10 +10,6 @@ function click_mouse(val) {
 
 function toggle_mouse(val) {
     robot.mouseToggle(val);
-}
-
-function scroll_mouse({ dx, dy }) {
-    robot.scrollMouse(0, 1);
 }
 
 function mouse_position() {
@@ -28,7 +24,6 @@ module.exports = {
     move_mouse,
     click_mouse,
     toggle_mouse,
-    scroll_mouse,
     mouse_position,
     getScreenSize
 }
