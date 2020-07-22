@@ -20,10 +20,15 @@ function mouse_position() {
     return robot.getMousePos();
 }
 
+function getScreenSize(){
+    return {height, width} = robot.getScreenSize();
+}
+
 module.exports = {
     move_mouse,
     click_mouse,
     toggle_mouse,
     scroll_mouse,
-    mouse_position
+    mouse_position,
+    getScreenSize
 }

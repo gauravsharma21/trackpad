@@ -7,19 +7,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="./css/style.css">
+    <!-- <link rel="preload" href="/public/js/fetch.js" as="script"> -->
 
 </head>
 
-<body style="display: flex; flex-direction: column;">
+<body style="display: flex; flex: 1; flex-direction: column; margin: auto;">
     <div style="flex: 1;">
-        <button id="lock_button" style="border: none; padding: 10px;">Lock mouse</button>
-        <!-- <textarea id="text" style="display: none;"> </textarea>
-        <button id="key_button" style="border: none; padding: 10px;">Keyboard</button> -->
     </div>
     <div style="flex: 10;">
-        <div id="screen" style="border: 5px solid #a8a8a8; border-radius: 10px; height: 90%; width: 90%; margin: auto; background-color: #dbdbdb;"></div>
+        <div id="screen">
+            <div id="lock_button"></div>
+        </div>
     </div>
     <script src="./js/script.js"></script>
+    <script>
+        loadData().then(() => {
+            set();
+        }).catch((e) => {
+            alert(e);
+        })
+    </script>
 </body>
 
 </html>
