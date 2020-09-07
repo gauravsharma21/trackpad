@@ -1,12 +1,15 @@
 const socket = io();
 
-var body = document.getElementById("screen");
-var button = document.getElementById("lock_button");
+var mouse = document.getElementById("screen");
+var lock_button = document.getElementById("lock_button");
+var toggle_button = document.getElementById("toggle_button");
+var keyboard = document.getElementById("keys");
 
-var lock = false;
+var lock = false,
+    toggle = true;
 
-var ms = new Hammer.Manager(body);
-var mb = new Hammer.Manager(button);
+var ms = new Hammer.Manager(mouse);
+var mb = new Hammer.Manager(lock_button);
 
 var move = new Hammer.Pan({
     event: "pan",
@@ -74,10 +77,44 @@ mb.on("double_tap", (ev) => {
         ms.add(tap2);
     }
     if (lock) {
-        button.style.backgroundColor = "red";
+        lock_button.style.backgroundColor = "red";
     } else {
-        button.style.backgroundColor = "white";
+        lock_button.style.backgroundColor = "white";
     }
     lock = !lock;
 })
 
+toggle_button.addEventListener("click", (e) => {
+    if (toggle) {
+        keyboard.style.display = "flex";
+        mouse.style.display = "none";
+        toggle_button.innerHTML = "Mouse";
+    } else {
+        keyboard.style.display = "none";
+        mouse.style.display = "flex";
+        toggle_button.innerHTML = "Keyboard";
+        socket.emit('key_toggle', 'shift', 'up');
+    }
+    toggle = !toggle;
+})
+var children = keyboard.getElementsByTagName("div");
+
+var isUpperCase = false;
+
+for (var i = 0; i < children.length; ++i) {
+    var row = children[i].getElementsByTagName("div");
+    for (var j = 0; j < row.length; ++j) {
+        row[j].addEventListener("click", (e) => {
+            var val = (e.target.innerHTML);
+            if (val === 'up') {
+                isUpperCase = !isUpperCase;
+                if (isUpperCase)
+                    socket.emit('key_toggle', 'shift', 'down');
+                else
+                    socket.emit('key_toggle', 'shift', 'up');
+                return;
+            }
+            socket.emit("type", val);
+        })
+    }
+}

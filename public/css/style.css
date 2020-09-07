@@ -21,3 +21,22 @@ body {
     background-color: white;
     border-radius: 100%;
 }
+
+#keys {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    border: 5px solid #a8a8a8;
+    border-radius: 10px;
+    height: 90%;
+    width: 90%;
+    margin: auto;
+}
+
+#keys div div {
+    flex: 1;
+    background-color: #a8a8a8;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center;
+}

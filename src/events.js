@@ -16,8 +16,16 @@ function mouse_position() {
     return robot.getMousePos();
 }
 
-function getScreenSize(){
-    return {height, width} = robot.getScreenSize();
+function getScreenSize() {
+    return { height, width } = robot.getScreenSize();
+}
+
+function key_press(val) {
+    return robot.keyTap(val);
+}
+
+function key_toggle(val, down) {
+    return robot.keyToggle(val, down);
 }
 
 module.exports = {
@@ -25,5 +33,7 @@ module.exports = {
     click_mouse,
     toggle_mouse,
     mouse_position,
-    getScreenSize
+    getScreenSize,
+    key_press,
+    key_toggle
 }

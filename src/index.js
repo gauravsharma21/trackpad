@@ -1,5 +1,4 @@
 const express = require('express');
-const robot = require('robotjs');
 const path = require('path');
 const events = require('./events');
 
@@ -17,7 +16,7 @@ app.get('/size', (req, res) => {
     res.send(events.getScreenSize());
 })
 
-var x,y;
+var x, y;
 
 io.on("connection", (socket) => {
     console.log("a user connected");
@@ -28,8 +27,12 @@ io.on("connection", (socket) => {
         y = obj.y;
     })
 
+    socket.on("type", (val) => {
+        events.key_press(val);
+    })
+
     socket.on("move", (pos) => {
-        events.move_mouse({...pos, x, y});
+        events.move_mouse({...pos, x, y });
     })
 
     socket.on("click", (val) => {
@@ -38,6 +41,10 @@ io.on("connection", (socket) => {
 
     socket.on("mouse_toggle", (val) => {
         events.toggle_mouse(val);
+    })
+
+    socket.on("key_toggle", (val, down) => {
+        events.key_toggle(val, down);
     })
 
     socket.on("disconnect", () => {
